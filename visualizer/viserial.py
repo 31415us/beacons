@@ -29,7 +29,8 @@ SER = serial.Serial('/dev/ttyUSB0', 19200)
 def get_state():
     line = SER.readline()
     state_arr = [float(i) for i in line.split(' ')]
-    return (state_arr[0], state_arr[1], state_arr[2], state_arr[3], state_arr[4])
+    robot_nr = state_arr[0]
+    return (robot_nr, (state_arr[1], state_arr[2], state_arr[3], state_arr[4], state_arr[5]))
 
 def draw_state(state, color):
     "draw a position and the covariance around it"
@@ -86,9 +87,14 @@ def main():
         if not paused:
             SCREEN.fill(BLACK)
 
-            state = get_state()
+            (robot_nr, state)= get_state()
 
-            draw_state(state, RED)
+            if robot_nr == 1:
+                color = RED
+            else:
+                color = GREEN
+
+            draw_state(state, color)
 
             pygame.display.update()
 
