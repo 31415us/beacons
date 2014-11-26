@@ -26,6 +26,13 @@ PURPLE = (255, 0, 255)
 
 SER = serial.Serial('/dev/ttyUSB0', 19200)
 
+CIRCUM_POS_X = (4.0/3.0) * PX_PER_METER
+CIRCUM_POS_Y = 1.0 * PX_PER_METER
+CIRCUM_RADIUS = (5.0/3.0) * PX_PER_METER
+
+def draw_circumcircle():
+    pygame.draw.circle(SCREEN, WHITE, (CIRCUM_POS_X, CIRCUM_POS_Y), CIRCUM_RADIUS, 2)
+
 def get_state():
     line = SER.readline()
     state_arr = [float(i) for i in line.split(' ')]
@@ -87,7 +94,9 @@ def main():
         if not paused:
             SCREEN.fill(BLACK)
 
-            (robot_nr, state)= get_state()
+            draw_circumcircle()
+
+            (robot_nr, state) = get_state()
 
             if robot_nr == 1:
                 color = RED
